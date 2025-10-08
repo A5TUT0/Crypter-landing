@@ -12,6 +12,7 @@ import {
   ChevronDown,
   Lock,
   DollarSign,
+  Code2, // Icono para el badge "Open source" en el héroe
 } from "lucide-astro";
 
 const version = "v1.0.0";
@@ -40,12 +41,14 @@ const downloadUrl = "https://download.luan.world/app-release.apk"; // file in /p
 
       <a
         href={downloadUrl}
+        data-href={downloadUrl}
+        data-dl
         download
         class="hidden sm:inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#df9f6a] to-[#c97e49] px-4 py-2 text-sm font-semibold text-black hover:text-black/90 shadow-lg shadow-[#df9f6a]/20 hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#df9f6a]"
         aria-label="Download Crypter for Android"
       >
         <Download width="20" height="20" />
-        Download for Android · {version}
+        <span class="dl-label">Download for Android · {version}</span>
       </a>
     </nav>
   </header>
@@ -75,11 +78,13 @@ const downloadUrl = "https://download.luan.world/app-release.apk"; // file in /p
           >
             <a
               href={downloadUrl}
+              data-href={downloadUrl}
+              data-dl
               download
               class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#df9f6a] px-5 py-3 text-base font-semibold text-black shadow-lg shadow-[#df9f6a]/25 hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#df9f6a]"
             >
               <Smartphone width="22" height="22" />
-              Download for Android ({version})
+              <span class="dl-label">Download for Android ({version})</span>
             </a>
 
             <a
@@ -115,13 +120,13 @@ const downloadUrl = "https://download.luan.world/app-release.apk"; // file in /p
             >
               <DollarSign width="16" height="16" /> Free
             </span>
+            <!-- Badge Open source (se mantiene en el héroe) -->
+            <span
+              class="inline-flex items-center gap-2 rounded-full bg-[#df9f6a]/15 px-3 py-1 text-xs font-medium text-[#df9f6a] ring-1 ring-[#df9f6a]/30"
+            >
+              <Code2 width="16" height="16" /> Open source
+            </span>
           </div>
-
-          <p class="mt-4 text-xs text-slate-400">
-            * The file is an <strong>.aab</strong> (Android App Bundle). If you need
-            an <strong>.apk</strong>, use a compatible installer or convert it
-            first.
-          </p>
         </div>
 
         <!-- Visual: device mockup image -->
@@ -237,6 +242,8 @@ const downloadUrl = "https://download.luan.world/app-release.apk"; // file in /p
           </div>
         </div>
       </article>
+
+      <!-- NOTE: The "Open source" card has been removed from this section -->
     </div>
   </section>
 
@@ -289,234 +296,224 @@ const downloadUrl = "https://download.luan.world/app-release.apk"; // file in /p
         >
         Download <code class="rounded bg-white/10 px-1 py-0.5"
           >Crypter-{version}.aab</code
-        >.
+        >
       </li>
       <li class="flex items-start gap-3">
         <span
           class="mt-1 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#df9f6a]/15 ring-1 ring-[#df9f6a]/30"
           >2</span
         >
-        If your device cannot install <code>.aab</code> directly, use a compatible
-        installer or convert it to <code>.apk</code>.
-      </li>
-      <li class="flex items-start gap-3">
-        <span
-          class="mt-1 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#df9f6a]/15 ring-1 ring-[#df9f6a]/30"
-          >3</span
-        >
         Enable “Install unknown apps” only during installation, then disable it for
         safety.
       </li>
     </ol>
-  </section>
 
-  <!-- FAQ -->
-  <section class="mx-auto max-w-6xl px-4 sm:px-6 py-10">
-    <h2 class="text-xl sm:text-2xl font-bold tracking-tight">FAQ</h2>
-    <div
-      class="mt-4 divide-y divide-white/10 rounded-2xl border border-white/10"
-    >
-      <details class="group p-4 open:bg-white/5">
-        <summary
-          class="flex cursor-pointer list-none items-center justify-between text-sm font-semibold"
-        >
-          Does Crypter work offline?
-          <ChevronDown
-            width="20"
-            height="20"
-            class="transition group-open:rotate-180 text-[#df9f6a]"
-          />
-        </summary>
-        <p class="mt-2 text-sm text-slate-300">
-          Yes. All storage and encryption are local. Network is only used if you
-          explicitly check for breaches.
-        </p>
-      </details>
-      <details class="group p-4 open:bg-white/5">
-        <summary
-          class="flex cursor-pointer list-none items-center justify-between text-sm font-semibold"
-        >
-          What encryption do you use?
-          <ChevronDown
-            width="20"
-            height="20"
-            class="transition group-open:rotate-180 text-[#df9f6a]"
-          />
-        </summary>
-        <p class="mt-2 text-sm text-slate-300">
-          AES-256 with keys protected by Android Keystore / iOS Keychain and
-          biometric authentication.
-        </p>
-      </details>
-      <details class="group p-4 open:bg-white/5">
-        <summary
-          class="flex cursor-pointer list-none items-center justify-between text-sm font-semibold"
-        >
-          Is it free?
-          <ChevronDown
-            width="20"
-            height="20"
-            class="transition group-open:rotate-180 text-[#df9f6a]"
-          />
-        </summary>
-        <p class="mt-2 text-sm text-slate-300">
-          Yes. Crypter is 100% free and requires no account.
-        </p>
-      </details>
-    </div>
-  </section>
-
-  <!-- Final CTA -->
-  <section class="mx-auto max-w-6xl px-4 sm:px-6 pb-24 sm:pb-16">
-    <div
-      class="rounded-3xl bg-[linear-gradient(120deg,rgba(223,159,106,.12),rgba(223,159,106,.08))] ring-1 ring-white/10 p-6 sm:p-10 text-center"
-    >
-      <h3 class="text-2xl sm:text-3xl font-bold tracking-tight">
-        Get started now
-      </h3>
-      <p class="mt-2 text-slate-300">
-        Install Crypter and take control of your passwords — no third parties.
-      </p>
-      <a
-        href={downloadUrl}
-        download
-        class="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#df9f6a] to-[#c97e49] px-6 py-3 text-base font-semibold text-black shadow-lg shadow-[#df9f6a]/20 hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#df9f6a]"
+    <!-- FAQ -->
+    <section class="mx-auto max-w-6xl px-4 sm:px-6 py-10">
+      <h2 class="text-xl sm:text-2xl font-bold tracking-tight">FAQ</h2>
+      <div
+        class="mt-4 divide-y divide-white/10 rounded-2xl border border-white/10"
       >
-        <Download width="22" height="22" />
-        Download for Android ({version})
-      </a>
-    </div>
-  </section>
+        <details class="group p-4 open:bg-white/5">
+          <summary
+            class="flex cursor-pointer list-none items-center justify-between text-sm font-semibold"
+          >
+            Does Crypter work offline?
+            <ChevronDown
+              width="20"
+              height="20"
+              class="transition group-open:rotate-180 text-[#df9f6a]"
+            />
+          </summary>
+          <p class="mt-2 text-sm text-slate-300">
+            Yes. All storage and encryption are local. Network is only used if
+            you explicitly check for breaches.
+          </p>
+        </details>
+        <details class="group p-4 open:bg-white/5">
+          <summary
+            class="flex cursor-pointer list-none items-center justify-between text-sm font-semibold"
+          >
+            What encryption do you use?
+            <ChevronDown
+              width="20"
+              height="20"
+              class="transition group-open:rotate-180 text-[#df9f6a]"
+            />
+          </summary>
+          <p class="mt-2 text-sm text-slate-300">
+            AES-256 with keys protected by Android Keystore / iOS Keychain and
+            biometric authentication.
+          </p>
+        </details>
+        <details class="group p-4 open:bg-white/5">
+          <summary
+            class="flex cursor-pointer list-none items-center justify-between text-sm font-semibold"
+          >
+            Is it free?
+            <ChevronDown
+              width="20"
+              height="20"
+              class="transition group-open:rotate-180 text-[#df9f6a]"
+            />
+          </summary>
+          <p class="mt-2 text-sm text-slate-300">
+            Yes. Crypter is 100% free and requires no account.
+          </p>
+        </details>
+      </div>
+    </section>
 
-  <!-- Sticky mobile download bar -->
-  <div
-    class="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#0f1218]/95 backdrop-blur sm:hidden"
-  >
-    <div class="mx-auto max-w-6xl px-4 py-3">
-      <a
-        href={downloadUrl}
-        download
-        class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#df9f6a] px-5 py-3 text-sm font-semibold text-black shadow-lg shadow-[#df9f6a]/20"
+    <!-- Final CTA -->
+    <section class="mx-auto max-w-6xl px-4 sm:px-6 pb-24 sm:pb-16">
+      <div
+        class="rounded-3xl bg-[linear-gradient(120deg,rgba(223,159,106,.12),rgba(223,159,106,.08))] ring-1 ring-white/10 p-6 sm:p-10 text-center"
       >
-        <Smartphone width="18" height="18" />
-        Download Crypter ({version})
-      </a>
-    </div>
-  </div>
+        <h3 class="text-2xl sm:text-3xl font-bold tracking-tight">
+          Get started now
+        </h3>
+        <p class="mt-2 text-slate-300">
+          Install Crypter and take control of your passwords — no third parties.
+        </p>
+        <a
+          href={downloadUrl}
+          data-href={downloadUrl}
+          data-dl
+          download
+          class="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#df9f6a] to-[#c97e49] px-6 py-3 text-base font-semibold text-black shadow-lg shadow-[#df9f6a]/20 hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#df9f6a]"
+        >
+          <Download width="22" height="22" />
+          <span class="dl-label">Download for Android ({version})</span>
+        </a>
+      </div>
+    </section>
 
-  <footer class="border-t border-white/10 py-8">
+    <!-- Sticky mobile download bar -->
     <div
-      class="mx-auto max-w-6xl px-4 sm:px-6 text-center text-xs text-slate-400"
+      class="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#0f1218]/95 backdrop-blur sm:hidden"
     >
-      © {new Date().getFullYear()} Crypter. Built with React Native. Private by
-      design.
+      <div class="mx-auto max-w-6xl px-4 py-3">
+        <a
+          href={downloadUrl}
+          data-href={downloadUrl}
+          data-dl
+          download
+          class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#df9f6a] px-5 py-3 text-sm font-semibold text-black shadow-lg shadow-[#df9f6a]/20"
+        >
+          <Smartphone width="18" height="18" />
+          <span class="dl-label">Download Crypter ({version})</span>
+        </a>
+      </div>
     </div>
-  </footer>
-  <script is:inline>
-    (() => {
-      const DOWNLOAD_URL = "{downloadUrl}";
-      const ONE_HOUR = 60 * 60 * 1000;
-      const STORAGE_KEY = "crypter_next_allowed";
-      const COOKIE_NAME = "crypterNextAllowed";
 
-      const fmt = (ms) => {
-        const s = Math.max(0, Math.floor(ms / 1000));
-        const h = Math.floor(s / 3600);
-        const m = Math.floor((s % 3600) / 60);
-        const sec = s % 60;
-        const hh = h.toString();
-        const mm = String(m).padStart(2, "0");
-        const ss = String(sec).padStart(2, "0");
-        return `${hh}:${mm}:${ss}`;
-      };
-
-      const setCookie = (name, value, expiresAtMs) => {
-        const expires = new Date(expiresAtMs).toUTCString();
-        // Requiere HTTPS para que "Secure" funcione.
-        document.cookie = `${name}=${encodeURIComponent(
-          value
-        )}; expires=${expires}; path=/; SameSite=Lax; Secure`;
-      };
-
-      const getCookie = (name) => {
-        const row = document.cookie
-          .split("; ")
-          .find((r) => r.startsWith(name + "="));
-        return row ? decodeURIComponent(row.split("=")[1]) : null;
-      };
-
-      const readNextAllowed = () => {
-        const ls = localStorage.getItem(STORAGE_KEY);
-        const ck = getCookie(COOKIE_NAME);
-        const lsNum = ls ? parseInt(ls, 10) : 0;
-        const ckNum = ck ? parseInt(ck, 10) : 0;
-        // Usa el valor más estricto (el más lejos en el tiempo).
-        return Math.max(lsNum || 0, ckNum || 0);
-      };
-
-      const writeNextAllowed = (ts) => {
-        localStorage.setItem(STORAGE_KEY, String(ts));
-        setCookie(COOKIE_NAME, String(ts), ts); // la cookie expira justo cuando termina el bloqueo
-      };
-
-      const lockForHour = () => writeNextAllowed(Date.now() + ONE_HOUR);
-
-      const anchors = Array.from(
-        document.querySelectorAll(`a[download][href="${DOWNLOAD_URL}"]`)
-      );
-
-      function setLockedUI(locked, remainingMs = 0) {
-        for (const a of anchors) {
-          a.setAttribute("aria-disabled", locked ? "true" : "false");
-          a.style.pointerEvents = locked ? "none" : "";
-          a.style.opacity = locked ? "0.6" : "";
-          a.title = locked
-            ? `Solo 1 descarga por hora. Tiempo restante: ${fmt(remainingMs)}`
-            : "Descargar";
-        }
-      }
-
-      function tick() {
-        const next = readNextAllowed();
-        const now = Date.now();
-        const locked = next > now;
-        setLockedUI(locked, next - now);
-        if (locked) {
-          // Actualiza el tooltip/estado cada segundo mientras haya bloqueo
-          setTimeout(tick, 1000);
-        }
-      }
-
-      function onClick(e) {
-        const next = readNextAllowed();
-        const now = Date.now();
-        if (next > now) {
-          e.preventDefault();
-          const remaining = next - now;
-          alert(
-            `Solo puedes descargar una vez por hora.\nVuelve en ${fmt(remaining)}.`
-          );
-          return false;
-        } else {
-          // Fijamos el bloqueo ANTES de navegar para que quede registrado
-          lockForHour();
-          // Permitimos la navegación/descarga
-        }
-      }
-
-      // Adjunta interceptores
-      for (const a of anchors) {
-        // capture:true para adelantarnos a otros listeners
-        a.addEventListener("click", onClick, { capture: true });
-      }
-
-      // Sincroniza entre pestañas/ventanas
-      window.addEventListener("storage", (evt) => {
-        if (evt.key === STORAGE_KEY) tick();
-      });
-
-      // Inicializa estado UI
-      tick();
-    })();
-  </script>
+    <footer class="border-t border-white/10 py-8">
+      <div
+        class="mx-auto max-w-6xl px-4 sm:px-6 text-center text-xs text-slate-400"
+      >
+        © {new Date().getFullYear()} Crypter. Built with React Native. Private by
+        design.
+      </div>
+    </footer>
+  </section>
 </Layout>
+
+<!-- Limiter: 1 download per hour (client-side, UX in Spanish) -->
+<script>
+  (function () {
+    const STORAGE_KEY = "crypterLastDownloadAt";
+    const LIMIT_MS = 60 * 60 * 1000; // 1 hour
+    const btns = Array.from(document.querySelectorAll("[data-dl]"));
+
+    // Guardar label original
+    btns.forEach((btn) => {
+      const label = btn.querySelector(".dl-label");
+      if (label && !btn.dataset.originalLabel) {
+        btn.dataset.originalLabel = label.textContent || "";
+      }
+      if (!btn.dataset.href && btn.getAttribute("href")) {
+        btn.dataset.href = btn.getAttribute("href");
+      }
+    });
+
+    function getRemainingMs() {
+      const last = Number(localStorage.getItem(STORAGE_KEY) || 0);
+      const elapsed = Date.now() - last;
+      const remaining = LIMIT_MS - elapsed;
+      return remaining > 0 ? remaining : 0;
+    }
+
+    function fmtRemaining(ms) {
+      const totalSec = Math.ceil(ms / 1000);
+      const m = Math.floor(totalSec / 60);
+      const s = totalSec % 60;
+      if (m > 0) return `${m}m ${s.toString().padStart(2, "0")}s`;
+      return `${s}s`;
+    }
+
+    function setLockedUI(remainingMs) {
+      btns.forEach((btn) => {
+        const label = btn.querySelector(".dl-label");
+        if (!label) return;
+        btn.setAttribute("aria-disabled", "true");
+        btn.classList.add("opacity-60", "cursor-not-allowed");
+        // No usamos title para que no parezca error
+        if (btn.hasAttribute("href")) btn.removeAttribute("href");
+        if (btn.hasAttribute("download")) btn.removeAttribute("download");
+        label.textContent = "Thanks for downloading";
+      });
+    }
+
+    function setUnlockedUI() {
+      btns.forEach((btn) => {
+        const label = btn.querySelector(".dl-label");
+        if (!label) return;
+        btn.removeAttribute("aria-disabled");
+        btn.classList.remove("opacity-60", "cursor-not-allowed");
+        if (btn.dataset.href) btn.setAttribute("href", btn.dataset.href);
+        btn.setAttribute("download", "");
+        label.textContent = btn.dataset.originalLabel || label.textContent;
+      });
+    }
+
+    function updateState() {
+      const remaining = getRemainingMs();
+      if (remaining > 0) setLockedUI(remaining);
+      else setUnlockedUI();
+    }
+
+    // Click handler
+    btns.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const remaining = getRemainingMs();
+        const label = btn.querySelector(".dl-label");
+
+        if (remaining > 0) {
+          // Blocked: show a friendly message and do not download
+          e.preventDefault();
+          if (label) {
+            const prev = label.textContent;
+            label.textContent = `You can download it again in ${fmtRemaining(remaining)}.`;
+            // Revert to "Thanks for downloading" after 3s
+            setTimeout(() => {
+              if (getRemainingMs() > 0)
+                label.textContent = "Thanks for downloading";
+            }, 3000);
+          }
+          return;
+        }
+
+        // Permitido: registramos timestamp y bloqueamos inmediatamente
+        localStorage.setItem(STORAGE_KEY, String(Date.now()));
+        // UI: immediate feedback
+        if (label) label.textContent = "Thanks for downloading";
+        setTimeout(updateState, 0);
+      });
+    });
+
+    // Estado inicial
+    updateState();
+
+    // Periodic check to unlock when the hour has passed
+    setInterval(updateState, 15 * 1000);
+  })();
+</script>
