@@ -15,7 +15,7 @@ import {
 } from "lucide-astro";
 
 const version = "v1.0.0";
-const downloadUrl = "https://download.luan.world/Crypter-v1.0.0.aab"; // file in /public
+const downloadUrl = "https://download.luan.world/app-release.apk"; // file in /public
 ---
 
 <Layout
@@ -412,4 +412,111 @@ const downloadUrl = "https://download.luan.world/Crypter-v1.0.0.aab"; // file in
       design.
     </div>
   </footer>
+  <script is:inline>
+    (() => {
+      const DOWNLOAD_URL = "{downloadUrl}";
+      const ONE_HOUR = 60 * 60 * 1000;
+      const STORAGE_KEY = "crypter_next_allowed";
+      const COOKIE_NAME = "crypterNextAllowed";
+
+      const fmt = (ms) => {
+        const s = Math.max(0, Math.floor(ms / 1000));
+        const h = Math.floor(s / 3600);
+        const m = Math.floor((s % 3600) / 60);
+        const sec = s % 60;
+        const hh = h.toString();
+        const mm = String(m).padStart(2, "0");
+        const ss = String(sec).padStart(2, "0");
+        return `${hh}:${mm}:${ss}`;
+      };
+
+      const setCookie = (name, value, expiresAtMs) => {
+        const expires = new Date(expiresAtMs).toUTCString();
+        // Requiere HTTPS para que "Secure" funcione.
+        document.cookie = `${name}=${encodeURIComponent(
+          value
+        )}; expires=${expires}; path=/; SameSite=Lax; Secure`;
+      };
+
+      const getCookie = (name) => {
+        const row = document.cookie
+          .split("; ")
+          .find((r) => r.startsWith(name + "="));
+        return row ? decodeURIComponent(row.split("=")[1]) : null;
+      };
+
+      const readNextAllowed = () => {
+        const ls = localStorage.getItem(STORAGE_KEY);
+        const ck = getCookie(COOKIE_NAME);
+        const lsNum = ls ? parseInt(ls, 10) : 0;
+        const ckNum = ck ? parseInt(ck, 10) : 0;
+        // Usa el valor más estricto (el más lejos en el tiempo).
+        return Math.max(lsNum || 0, ckNum || 0);
+      };
+
+      const writeNextAllowed = (ts) => {
+        localStorage.setItem(STORAGE_KEY, String(ts));
+        setCookie(COOKIE_NAME, String(ts), ts); // la cookie expira justo cuando termina el bloqueo
+      };
+
+      const lockForHour = () => writeNextAllowed(Date.now() + ONE_HOUR);
+
+      const anchors = Array.from(
+        document.querySelectorAll(`a[download][href="${DOWNLOAD_URL}"]`)
+      );
+
+      function setLockedUI(locked, remainingMs = 0) {
+        for (const a of anchors) {
+          a.setAttribute("aria-disabled", locked ? "true" : "false");
+          a.style.pointerEvents = locked ? "none" : "";
+          a.style.opacity = locked ? "0.6" : "";
+          a.title = locked
+            ? `Solo 1 descarga por hora. Tiempo restante: ${fmt(remainingMs)}`
+            : "Descargar";
+        }
+      }
+
+      function tick() {
+        const next = readNextAllowed();
+        const now = Date.now();
+        const locked = next > now;
+        setLockedUI(locked, next - now);
+        if (locked) {
+          // Actualiza el tooltip/estado cada segundo mientras haya bloqueo
+          setTimeout(tick, 1000);
+        }
+      }
+
+      function onClick(e) {
+        const next = readNextAllowed();
+        const now = Date.now();
+        if (next > now) {
+          e.preventDefault();
+          const remaining = next - now;
+          alert(
+            `Solo puedes descargar una vez por hora.\nVuelve en ${fmt(remaining)}.`
+          );
+          return false;
+        } else {
+          // Fijamos el bloqueo ANTES de navegar para que quede registrado
+          lockForHour();
+          // Permitimos la navegación/descarga
+        }
+      }
+
+      // Adjunta interceptores
+      for (const a of anchors) {
+        // capture:true para adelantarnos a otros listeners
+        a.addEventListener("click", onClick, { capture: true });
+      }
+
+      // Sincroniza entre pestañas/ventanas
+      window.addEventListener("storage", (evt) => {
+        if (evt.key === STORAGE_KEY) tick();
+      });
+
+      // Inicializa estado UI
+      tick();
+    })();
+  </script>
 </Layout>
