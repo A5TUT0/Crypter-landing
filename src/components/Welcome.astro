@@ -68,8 +68,7 @@ const downloadUrl = "https://expo.dev/artifacts/eas/d86Egg7Zaiiu5YZnEZxDZs.apk";
             >.
           </h1>
           <p class="mt-4 text-slate-300 text-base sm:text-lg">
-            Crypter stores your credentials <strong>locally encrypted</strong> (AES-256
-            + Keystore/Keychain), with <strong>biometrics</strong> and leak verification.
+            Crypter stores your credentials with <strong>biometrics</strong> support.
             100% offline. No cloud. No subscriptions.
           </p>
 
@@ -100,11 +99,6 @@ const downloadUrl = "https://expo.dev/artifacts/eas/d86Egg7Zaiiu5YZnEZxDZs.apk";
           <div
             class="mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-2"
           >
-            <span
-              class="inline-flex items-center gap-2 rounded-full bg-[#df9f6a]/15 px-3 py-1 text-xs font-medium text-[#df9f6a] ring-1 ring-[#df9f6a]/30"
-            >
-              <Lock width="16" height="16" /> AES-256
-            </span>
             <span
               class="inline-flex items-center gap-2 rounded-full bg-[#df9f6a]/15 px-3 py-1 text-xs font-medium text-[#df9f6a] ring-1 ring-[#df9f6a]/30"
             >
@@ -161,41 +155,12 @@ const downloadUrl = "https://expo.dev/artifacts/eas/d86Egg7Zaiiu5YZnEZxDZs.apk";
       <article class="rounded-2xl bg-white/5 p-5 ring-1 ring-white/10">
         <div class="flex items-start gap-3">
           <div class="rounded-lg bg-[#df9f6a]/15 p-2 ring-1 ring-[#df9f6a]/30">
-            <Shield width="22" height="22" />
-          </div>
-          <div>
-            <h3 class="font-semibold">Strong local encryption</h3>
-            <p class="mt-1 text-sm text-slate-300">
-              AES-256 + Android Keystore / iOS Keychain. Keys never leave your
-              device.
-            </p>
-          </div>
-        </div>
-      </article>
-
-      <article class="rounded-2xl bg-white/5 p-5 ring-1 ring-white/10">
-        <div class="flex items-start gap-3">
-          <div class="rounded-lg bg-[#df9f6a]/15 p-2 ring-1 ring-[#df9f6a]/30">
             <Fingerprint width="22" height="22" />
           </div>
           <div>
             <h3 class="font-semibold">Biometric unlock</h3>
             <p class="mt-1 text-sm text-slate-300">
               Use fingerprint or face authentication when available.
-            </p>
-          </div>
-        </div>
-      </article>
-
-      <article class="rounded-2xl bg-white/5 p-5 ring-1 ring-white/10">
-        <div class="flex items-start gap-3">
-          <div class="rounded-lg bg-[#df9f6a]/15 p-2 ring-1 ring-[#df9f6a]/30">
-            <Database width="22" height="22" />
-          </div>
-          <div>
-            <h3 class="font-semibold">Password leak check</h3>
-            <p class="mt-1 text-sm text-slate-300">
-              Query Pwned Passwords to see if a password was compromised.
             </p>
           </div>
         </div>
@@ -261,15 +226,7 @@ const downloadUrl = "https://expo.dev/artifacts/eas/d86Egg7Zaiiu5YZnEZxDZs.apk";
             Check if your email appears in public breaches.
           </p>
         </div>
-        <div class="rounded-xl border border-white/10 p-4">
-          <div class="flex items-center gap-2 text-sm font-semibold">
-            <Database width="18" height="18" class="text-[#df9f6a]" />
-            Pwned Passwords
-          </div>
-          <p class="mt-1 text-sm text-slate-300">
-            Verify if a password has been compromised.
-          </p>
-        </div>
+
         <div class="rounded-xl border border-white/10 p-4">
           <div class="flex items-center gap-2 text-sm font-semibold">
             <KeyRound width="18" height="18" class="text-[#df9f6a]" />
@@ -318,22 +275,6 @@ const downloadUrl = "https://expo.dev/artifacts/eas/d86Egg7Zaiiu5YZnEZxDZs.apk";
           <summary
             class="flex cursor-pointer list-none items-center justify-between text-sm font-semibold"
           >
-            Does Crypter work offline?
-            <ChevronDown
-              width="20"
-              height="20"
-              class="transition group-open:rotate-180 text-[#df9f6a]"
-            />
-          </summary>
-          <p class="mt-2 text-sm text-slate-300">
-            Yes. All storage and encryption are local. Network is only used if
-            you explicitly check for breaches.
-          </p>
-        </details>
-        <details class="group p-4 open:bg-white/5">
-          <summary
-            class="flex cursor-pointer list-none items-center justify-between text-sm font-semibold"
-          >
             What encryption do you use?
             <ChevronDown
               width="20"
@@ -342,8 +283,10 @@ const downloadUrl = "https://expo.dev/artifacts/eas/d86Egg7Zaiiu5YZnEZxDZs.apk";
             />
           </summary>
           <p class="mt-2 text-sm text-slate-300">
-            AES-256 with keys protected by Android Keystore / iOS Keychain and
-            biometric authentication.
+            We dont use encryption. So everything is stored as plain text on
+            your device. This is to avoid any false sense of security, and to
+            keep the app simple and offline. Your device's own security (lock
+            screen, biometrics) is what protects your data.
           </p>
         </details>
         <details class="group p-4 open:bg-white/5">
